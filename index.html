@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap"
+    rel="stylesheet"
+  />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <style>
+    .foo {
+      font-family: Nunito !important;
+      margin: 40px 120px;
+      outline: none;
+      width: 100%;
+    }
+    #tx {
+      width: 100%;
+      outline: none;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 14px;
+    }
+    .name {
+      font-weight: 700;
+      font-size: 20px;
+      text-align: center;
+    }
+    .address {
+      font-weight: 400;
+      font-size: 14px;
+      text-align: center;
+    }
+    .wrapper {
+      display: flex;
+      margin: 20px;
+    }
+    p {
+      margin: 0;
+    }
+    h4 {
+      margin: 0;
+      margin-top: 20px;
+    }
+    .fle {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .title {
+      font-weight: 700;
+    }
+    .work {
+      margin-top: 10px;
+    }
+    @media print {
+      .container {
+        display: none;
+      }
+      .foo {
+        width: 100%;
+        height: 29.7cm;
+        margin: 0;
+      }
+    }
+  </style>
+
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <textarea
+          id="tx"
+          class="bar"
+          rows="40"
+          cols="50"
+          placeholder="Paste JSON here"
+        ></textarea>
+        <br />
+        <button onclick="populate()">Done</button>
+      </div>
+      <div class="foo" contenteditable="true">
+        <div class="name" id="name">Prashant Raman</div>
+        <div class="address" id="address">Email | City | Phone</div>
+        <h4>Profile</h4>
+        <hr />
+        <p>
+          My objective in my life is to be in an organisation where I can grow
+          myself, both on the personal front and the professional front.
+        </p>
+        <h4>Work Experience</h4>
+        <hr />
+        <div id="jobs">
+          <div class="work">
+            <div class="fle">
+              <span class="title">Recovery Agent</span>
+              <span class="title">Job Start - Job End</span>
+            </div>
+            <div class="fle">
+              <span class="compoany">Company Name</span>
+              <span class="duration">Duration</span>
+            </div>
+          </div>
+        </div>
+
+        <h4>Educational Experience</h4>
+        <hr />
+        <div id="education">
+          <div class="work">
+            <div class="fle">
+              <span class="title" id="course">Course Name</span>
+              <span class="title" id="college_duration"
+                >College Start - College End</span
+              >
+            </div>
+            <div class="fle">
+              <span class="compoany" id="college_name">College Name</span>
+              <span class="duration" id="college_marks">College Marks</span>
+            </div>
+          </div>
+          <div class="work">
+            <div class="fle">
+              <span class="title">Class XII</span>
+              <span class="title">Class XII End</span>
+            </div>
+            <div class="fle">
+              <span class="compoany">School Name</span>
+              <span class="duration">Class XII Perc</span>
+            </div>
+          </div>
+
+          <div class="work">
+            <div class="fle">
+              <span class="title">Class X</span>
+              <span class="title">Class X End</span>
+            </div>
+            <div class="fle">
+              <span class="compoany">School Name</span>
+              <span class="duration">Class X Perc</span>
+            </div>
+          </div>
+        </div>
+        <h4>Softwares</h4>
+        <hr />
+        <p id="softwares">Softwares Known</p>
+
+        <h4>Languages</h4>
+        <hr />
+        <p id="languages">Languages Known</p>
+
+        <h4>Hobbies</h4>
+        <hr />
+        <p id="hobbies">Ho bbies Known</p>
+
+        <h4>Declaration</h4>
+        <hr />
+        <p>
+          My objective in my life is to be in an organisation where I can grow
+          myself, both on the personal front and the professional front.
+        </p>
+      </div>
+    </div>
+  </body>
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    $("textarea").autoResize();
+
+    function populate() {
+      const data = JSON.parse($("#tx").val());
+      const {
+        name,
+        dob,
+        email,
+        phone,
+        city,
+        state,
+        education,
+        languages,
+        software,
+        hobbies,
+        income,
+        pin,
+        jobs
+      } = data;
+
+      $("#name").text(name);
+      $("#software").text(software);
+      $("#languages").text(languages);
+      $("#hobbies").text(hobbies);
+
+      $("#address").text(`${email} | ${city}, ${state} | ${phone}`);
+      const jobHTML = jobs
+        .filter(job => job.name)
+        .map(job => tempGen(job))
+        .join("");
+      $("#jobs").html(jobHTML);
+
+      const eduHTML = education
+        .filter(job => job.name)
+        .map(edu => edutempGen(edu))
+        .join("");
+      $("#education").html(eduHTML);
+    }
+    const MY = ti => {
+      const tiobj = new Date(ti);
+      const mo = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ];
+      return mo[tiobj.getMonth()] + " " + tiobj.getFullYear();
+    };
+    function tempGen(obj) {
+      const { name, start, title, end, description } = obj;
+
+      const duration = () => {
+        diffTime = Math.abs(new Date(end) - new Date(start));
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const z = parseInt(diffDays / 365);
+        const pre = z + " years";
+        const m = parseInt((diffDays % 365) / 30);
+        console.log(pre);
+        const ende = m + " months";
+        return pre + " " + ende;
+      };
+      return `
+        <div class="work">
+            <div class="fle">
+                <span class="title">${title}</span>
+                <span class="title">${MY(start)} - ${MY(
+        end
+      )}</span>              
+            </div>
+            <div class="fle">
+                <span class="compoany">${name}</span>
+                <span class="duration">${duration()}</span>              
+            </div>
+        </div>   
+        `;
+    }
+    function edutempGen(obj) {
+      const { name, start, title, end, marks } = obj;
+
+      return `
+        <div class="work">
+            <div class="fle">
+                <span class="title">${title}</span>
+                <span class="title">${end}</span>              
+            </div>
+            <div class="fle">
+                <span class="compoany">${name}</span>
+                <span class="duration">${marks}</span>              
+            </div>
+        </div>   
+        `;
+    }
+  </script>
+</html>
