@@ -168,8 +168,24 @@
     crossorigin="anonymous"
   ></script>
   <script>
-    $("textarea").autoResize();
-
+          const MY = ti => {
+      const tiobj = new Date(ti);
+      const mo = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ];
+      return mo[tiobj.getMonth()] + " " + tiobj.getFullYear();
+    };
     function populate() {
       const data = JSON.parse($("#tx").val());
       const {
@@ -206,24 +222,7 @@
         .join("");
       $("#education").html(eduHTML);
     }
-    const MY = ti => {
-      const tiobj = new Date(ti);
-      const mo = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-      ];
-      return mo[tiobj.getMonth()] + " " + tiobj.getFullYear();
-    };
+
     function tempGen(obj) {
       const { name, start, title, end, description } = obj;
 
